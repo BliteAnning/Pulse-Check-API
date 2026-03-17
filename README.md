@@ -50,13 +50,14 @@ sequenceDiagram
 ## API endpoints
 ### register devices
 POST "/api/monitor"
-Example Request
+
+### Example Request
 {
     "deviceId":"device-123",
     "timeout":"20",
     "alert_email":"test@gmail.com"
 }
-Response
+### Response
 {
     "message":"Device registered successfully",
     "device":{"deviceId":"device-123",
@@ -72,7 +73,7 @@ Response
 ### heartbeat signal
 POST "/api/monitor/{id}/heartbeat"
 
-API response:
+### API response:
 {
     "message":"Heartbeat received. Timer reset.",
     "device":"device-123"
@@ -82,7 +83,7 @@ API response:
 
 POST "/api/monitor/{id}/pause"
 
-API response
+### API response
 {
     "message":"Device paused successfully"
 }
@@ -94,9 +95,10 @@ Last heartbeat time
 Current monitoring status
 This makes it easier for support engineers to monitor system behavior and diagnose connectivity issues.
 
-API Endpoint: GET "/api/monitor/get-devices"
+### get all devices
+GET "/api/monitor/get-devices"
 
-Response
+### Response
 {
     "devices": [
         {
@@ -133,3 +135,8 @@ DB = your_mongodb_connection_string (Make sure you have entered the correct mong
 PORT = 8000 (you can change to your preferred port number)
 3. run "npm install" to required dependencies
 4. run "npm run dev" to start the server
+
+
+{
+  "message": "Device registered successfully"
+}

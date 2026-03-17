@@ -90,9 +90,12 @@ POST "/api/monitor/{id}/pause"
 
 ## Developer Choice: Monitor status of every device
 To improve observability and system usability, the API provides an endpoint that allows administrators to check the current status of monitored devices.
+
 Instead of relying only on alerts, this feature provides real-time insight into:
-Last heartbeat time
-Current monitoring status
+
+Last heartbeat time and
+Current monitoring status.
+
 This makes it easier for support engineers to monitor system behavior and diagnose connectivity issues.
 
 ### get all devices

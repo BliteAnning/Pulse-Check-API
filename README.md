@@ -1,4 +1,5 @@
-# Dead man's switch API
+# Dead Man's Switch API
+A Node.js/Express backend service that monitors remote devices using a Dead Man’s Switch mechanism. Devices must periodically send heartbeat signals or the system automatically triggers alerts.
 
 ## Overview of the Project
 This system implements a dead man's switch API which detects whether a monitoring device is active or not.
@@ -47,8 +48,8 @@ sequenceDiagram
 ```
 
 ## API endpoints
-To register a device 
-API endpoint: POST "/api/monitor"
+### register devices
+POST "/api/monitor"
 Example Request
 {
     "deviceId":"device-123",
@@ -68,15 +69,23 @@ Response
     "__v":0}
 }
 
-To send a heartbeat signal 
-Endpoint: POST "/api/monitor/{id}/heartbeat"
-API response:
-{"message":"Heartbeat received. Timer reset.","device":"device-123"}
+### heartbeat signal
+POST "/api/monitor/{id}/heartbeat"
 
-To Pause a timer 
-API endpoint:POST "/api/monitor/{id}/pause"
+API response:
+{
+    "message":"Heartbeat received. Timer reset.",
+    "device":"device-123"
+}
+
+### Timer Pausing
+
+POST "/api/monitor/{id}/pause"
+
 API response
-{"message":"Device paused successfully"}
+{
+    "message":"Device paused successfully"
+}
 
 ## Developer Choice: Monitor status of every device
 To improve observability and system usability, the API provides an endpoint that allows administrators to check the current status of monitored devices.
@@ -118,7 +127,7 @@ multiple devices.
 ## How to run
 Ensure Node.js is installed on your system
 
-1. clone the repository and run "cd Pulse-Checker-API" in your terminal
+1. clone the repository and after, run "cd Pulse-Checker-API" in your terminal
 2. create an .env file in the project root directory and add these variables
 DB = your_mongodb_connection_string (Make sure you have entered the correct mongoDB URI before you start the server)
 PORT = 8000 (you can change to your preferred port number)

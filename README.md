@@ -137,6 +137,3 @@ PORT = 8000 (you can change to your preferred port number)
 4. run "npm run dev" to start the server
 
 
-{
-  "message": "Device registered successfully"
-}

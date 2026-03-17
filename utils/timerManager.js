@@ -2,15 +2,33 @@ import deviceModel from "../models/DeviceModel.js";
 
 
 const timers = {};
+const intervals = {};
 
-function startOrResetTimer(deviceId, timeout) {
+export const startOrResetTimer = async (deviceId, timeout)=> {
     // clear existing timer if it exists
     if (timers[deviceId]) {
         clearTimeout(timers[deviceId]);
     }
 
+    if (intervals[deviceId]) {
+        clearInterval(intervals[deviceId]);
+    }
+
+    let remaining = timeout;
+
+    //tracking timer on console.
+    intervals[deviceId] = setInterval(() => {
+        remaining--;
+        console.log(`Device ${deviceId} expires in ${remaining}s`);
+        if (remaining <= 0) {
+            clearInterval(intervals[deviceId]);
+            delete intervals[deviceId];
+        }
+    }, 1000);
+
     timers[deviceId] = setTimeout(async () => {
         try {
+
 
             // update device status in MongoDB
             await deviceModel.findOneAndUpdate(
@@ -36,14 +54,15 @@ function startOrResetTimer(deviceId, timeout) {
 
 
 
-function pauseTimer(deviceId) {
+export const pauseTimer = async (deviceId)=> {
     if (timers[deviceId]) {
         clearTimeout(timers[deviceId]);
         delete timers[deviceId];
     }
+     if (intervals[deviceId]) {
+        clearInterval(intervals[deviceId]);
+        delete intervals[deviceId];
+    }
 }
 
-export default {
-    startOrResetTimer,
-    pauseTimer
-};
+

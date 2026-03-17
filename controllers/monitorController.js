@@ -14,8 +14,10 @@ export const registerDevice = async (req, res) => {
             return res.status(400).json({ message: "Device already exists" });
         }
 
-        const newDevice = new deviceModel({ deviceId, timeout, alert_email });
+        const newDevice = new deviceModel({ deviceId, timeout, alert_email,status:"active" });
         await newDevice.save();
+
+        startOrResetTimer(deviceId, timeout);
         res.status(201).json({ message: "Device registered successfully", device: newDevice });
     }
     catch (error) {
@@ -33,18 +35,18 @@ export const handleHeartbeat = async (req, res) => {
 
         const device = await deviceModel.findOne({ deviceId: id });
 
-        // check if monitor exists
+        // check if device exists
         if (!device) {
             return res.status(404).json({
                 message: "Device not found"
             });
         }
 
-        // update heartbeat timestamp
+        
         device.lastHeartbeat = new Date();
 
-        // if device was paused, resume it
-        if (device.status === "paused") {
+        
+        if (device.status === "paused" || device.status === "down") {
             device.status = "active";
         }
 
@@ -84,5 +86,18 @@ export const pauseDevice = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+
+//get all devices
+export const getDevices = async (req, res) => {
+    try {
+        const devices = await deviceModel.find();
+        res.status(200).json({ devices });
+    } catch (error) {
+        console.error("Error fetching devices:", error);
+        res.status(500).json({ message: "Server error" });
     }
 };
